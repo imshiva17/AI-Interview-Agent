@@ -41,7 +41,6 @@ const Home = () => {
             Role-based mock interviews with smart follow-ups, adaptive difficulty and real-time performance evaluation.
           </motion.p>
           <div>
-            
           </div>
         </div>
       </div>
