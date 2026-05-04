@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ServerUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
-
+import AuthModel from "./AuthModel";
 
 export const Navbar = () => {
   const { userData } = useSelector((state) => state.user);
@@ -17,21 +17,21 @@ export const Navbar = () => {
   const [showUserPopup, setShowUserPopup] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showAuth, setShowAuth] = useState(false);
 
   const handleLogout = async () => {
     try {
-      await axios.get(ServerUrl + "/api/auth/logout",
-        { withCredentials: true}
-      )
+      await axios.get(ServerUrl + "/api/auth/logout", {
+        withCredentials: true,
+      });
       dispatch(setUserData(null));
-      setShowCreditPopup(false)
-      setShowUserPopup(false)
-      navigate("/")
+      setShowCreditPopup(false);
+      setShowUserPopup(false);
+      navigate("/");
     } catch (error) {
       console.log(error);
-      
     }
-  }
+  };
 
   return (
     <div className="bg-[#f3f3f3] flex justify-center px-4 pt-6 ">
@@ -54,6 +54,10 @@ export const Navbar = () => {
           <div className="relative">
             <button
               onClick={() => {
+                if (!userData) {
+                  setShowAuth(true);
+                  return;
+                }
                 setShowCreditPopup(!showCreditPopup);
                 setShowUserPopup(false);
               }}
@@ -81,6 +85,10 @@ export const Navbar = () => {
           <div className="relative">
             <button
               onClick={() => {
+                if (!userData) {
+                  setShowAuth(true);
+                  return;
+                }
                 setShowUserPopup(!showUserPopup);
                 setShowCreditPopup(false);
               }}
@@ -104,7 +112,10 @@ export const Navbar = () => {
                 >
                   Interview History
                 </button>
-                <button onClick={handleLogout} className="w-full text-left text-sm py-2 flex items-center gap-2 text-red-500 ">
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left text-sm py-2 flex items-center gap-2 text-red-500 "
+                >
                   <HiOutlineLogout size={16} />
                   Logout
                 </button>
@@ -113,6 +124,7 @@ export const Navbar = () => {
           </div>
         </div>
       </motion.div>
+      {showAuth && <AuthModel onClose={() => setShowAuth(false)} />}
     </div>
   );
 };
