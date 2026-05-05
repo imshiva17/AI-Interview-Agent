@@ -6,6 +6,7 @@ import { BsFileEarmarkText } from "react-icons/bs";
 import { HiSparkles } from "react-icons/hi";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
+import AuthModel from "../components/AuthModel";
 import hrImg from "../assets/HR.png";
 import techImg from "../assets/tech.png";
 import confidenceImg from "../assets/confi.png";
@@ -178,7 +179,7 @@ const Home = () => {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ scale: 1.02 }}
                   key={index}
-                  className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm hover:shadow-xl translate-all "
+                  className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all "
                 >
                   <div className="flex flex-col md:flex-row items-center gap-8 ">
                     <div className="w-full md:w-1/2 flex justify-center ">
@@ -243,7 +244,7 @@ const Home = () => {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ y: -6 }}
                   key={index}
-                  className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm hover:shadow-xl translate-all "
+                  className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all "
                 >
                   <div className="flex items-center justify-between gap-6 ">
                     <div className="w-1/2">

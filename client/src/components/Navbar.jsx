@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { BsRobot, BsCoin } from "react-icons/bs";
 import { HiOutlineLogout } from "react-icons/hi";
 import { FaUserAstronaut } from "react-icons/fa";
-import { userSlice } from "../redux/userSlice";
+import { userSlice } from "../redux/userSlice"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ServerUrl } from "../App";
@@ -68,7 +68,7 @@ export const Navbar = () => {
             </button>
 
             {showCreditPopup && (
-              <div className="absolute -right-12.5 mt-3 w-64 bg-white shadow-xl border border-gray-200 rounded-xl p-5 z-50 ">
+              <div className="absolute -right-12 mt-3 w-64 bg-white shadow-xl border border-gray-200 rounded-xl p-5 z-50 ">
                 <p className="text-sm text-gray-600 mb-4 ">
                   Need more credits to continue interviews?
                 </p>
