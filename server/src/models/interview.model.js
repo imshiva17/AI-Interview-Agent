@@ -43,7 +43,7 @@ const interviewSchema = new mongoose.Schema(
       default: "Incompleted",
     },
   },
-  { timestamps: "true" },
+  { timestamps: true },
 );
 
 const Interview = mongoose.model("Interview", interviewSchema);
