@@ -21,6 +21,10 @@ const Step2Interview = ({interviewData, onFinish}) => {
              preload='auto'
              className='w-full h-auto object-cover'
              />
+
+
+
+            
           </div>
 
         </div>
