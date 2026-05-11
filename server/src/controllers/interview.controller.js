@@ -88,6 +88,7 @@ export const generateQuestion = async (req, res) => {
     mode = mode?.trim();
 
     if (!role || !experience || !mode) {
+      
       return res
         .status(400)
         .json({ message: "Role, Experience and Mode are required" });
@@ -101,7 +102,8 @@ export const generateQuestion = async (req, res) => {
       });
     }
 
-    if (user.credits < 50) {
+    // less than 50 hoga
+    if (user.credits < 0) {
       return res.status(400).json({
         message: "Not enough credits. Minimum 50 required!",
       });
@@ -186,7 +188,9 @@ export const generateQuestion = async (req, res) => {
       });
     }
 
-    user.credits -= 50;
+
+    /* ye hona chahiye deployment time user.credits -= 50; */
+     user.credits -= 0;
     await user.save();
 
     const interview = await Interview.create({
@@ -209,6 +213,7 @@ export const generateQuestion = async (req, res) => {
       questions: interview.questions,
     });
   } catch (error) {
+
     return res
       .status(500)
       .json({ message: `Failed to create interview ${error}` });
@@ -217,7 +222,7 @@ export const generateQuestion = async (req, res) => {
 
 export const submitAnswer = async (req, res) => {
   try {
-    const { interviewId, questionIndex, answer, timetaken } = req.body;
+    const { interviewId, questionIndex, answer, timeTaken } = req.body;
 
     const interview = await Interview.findById(interviewId);
     const question = interview.questions[questionIndex];
@@ -234,7 +239,7 @@ export const submitAnswer = async (req, res) => {
       });
     }
 
-    if (timeTaken > questimeLimit) {
+    if (timeTaken > question.timeLimit) {
       question.score = 0;
       question.feedback = "Time limit exceeded, answer is  not evaluated";
       question.answer = answer;
@@ -300,7 +305,10 @@ export const submitAnswer = async (req, res) => {
 
     const aiResponse = await askAi(messages);
 
-    const parsed = JSON.parse(aiResponse);
+    // const parsed = JSON.parse(aiResponse);
+
+    const cleaned = aiResponse.replace(/```json|```/g, "").trim();
+    const parsed = JSON.parse(cleaned);
 
     question.answer = answer;
     question.confidence = parsed.confidence;
