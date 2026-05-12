@@ -88,7 +88,6 @@ export const generateQuestion = async (req, res) => {
     mode = mode?.trim();
 
     if (!role || !experience || !mode) {
-      
       return res
         .status(400)
         .json({ message: "Role, Experience and Mode are required" });
@@ -102,8 +101,7 @@ export const generateQuestion = async (req, res) => {
       });
     }
 
-    // less than 50 hoga
-    if (user.credits < 0) {
+    if (user.credits < 50) {
       return res.status(400).json({
         message: "Not enough credits. Minimum 50 required!",
       });
@@ -143,7 +141,7 @@ export const generateQuestion = async (req, res) => {
 
         Strict Rules:
         - Each question must contain between 15 and 25 words.
-        - Each question mut be a single complete sentence.
+        - Each question must be a single complete sentence.
         - Do NOT number them.
         - Do NOT add explanations.
         - Do NOT add extra text before or after.
@@ -188,9 +186,7 @@ export const generateQuestion = async (req, res) => {
       });
     }
 
-
-    /* ye hona chahiye deployment time user.credits -= 50; */
-     user.credits -= 0;
+    user.credits -= 50;
     await user.save();
 
     const interview = await Interview.create({
@@ -213,7 +209,6 @@ export const generateQuestion = async (req, res) => {
       questions: interview.questions,
     });
   } catch (error) {
-
     return res
       .status(500)
       .json({ message: `Failed to create interview ${error}` });
