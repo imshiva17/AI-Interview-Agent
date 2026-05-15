@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import axios from "axios";
 import { ServerUrl } from "../App";
-import {BsArrowRight } from "react-icons/bs";
+import { BsArrowRight } from "react-icons/bs";
 
 const Step2Interview = ({ interviewData, onFinish }) => {
   const { interviewId, questions, userName } = interviewData;
@@ -48,7 +48,7 @@ const Step2Interview = ({ interviewData, onFinish }) => {
       const maleVoice = voices.find(
         (v) =>
           v.name.toLowerCase().includes("david") ||
-          v.name.toLowerCase().includes("marl") ||
+          v.name.toLowerCase().includes("mark ") ||
           v.name.toLowerCase().includes("male"),
       );
 
@@ -142,7 +142,6 @@ const Step2Interview = ({ interviewData, onFinish }) => {
   useEffect(() => {
     if (isIntroPhase) return;
     if (!currentQuestion) return;
-    if (isSubmitting) return;
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -155,7 +154,13 @@ const Step2Interview = ({ interviewData, onFinish }) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isIntroPhase, currentIndex, isSubmitting]);
+  }, [isIntroPhase, currentIndex]);
+
+  useEffect(() => {
+    if (!isIntroPhase && currentQuestion) {
+      setTimeLeft(currentQuestion.timeLimit || 60);
+    }
+  }, [currentIndex]);
 
   useEffect(() => {
     if (!("webkitSpeechRecognition" in window)) return;
@@ -232,7 +237,7 @@ const Step2Interview = ({ interviewData, onFinish }) => {
       return;
     }
 
-    await speakText("Alright, let's move to the next question!");
+    await speakText("Alright, let's move to the next question.");
 
     setCurrentIndex(currentIndex + 1);
     setTimeout(() => {
@@ -259,23 +264,23 @@ const Step2Interview = ({ interviewData, onFinish }) => {
 
   useEffect(() => {
     if (isIntroPhase) return;
-    if(!currentQuestion) return;
+    if (!currentQuestion) return;
 
-    if(timeLeft === 0 && !isSubmitting && !feedback){
+    if (timeLeft === 0 && !isSubmitting && !feedback) {
       submitAnswer();
     }
-  },[timeLeft]);
+  }, [timeLeft]);
 
-  useEffect(()=>{
-    return ()=>{
-      if(recognitionRef.current){
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
         recognitionRef.current.stop();
         recognitionRef.current.abort();
       }
 
-      window.speechSynthesis.cancel()
-    }
-  },[])
+      window.speechSynthesis.cancel();
+    };
+  }, []);
   return (
     <div className="min-h-screen bg-linear-to-br from-emerald-50 via-white to-teal-100 flex items-center justify-center p-4 sm:p-6 ">
       <div className="w-full max-w-350 min-h-[80vh] bg-white rounded-3xl shadow-2xl border border-gray-200 flex flex-col lg:flex-row overflow-hidden ">
@@ -324,7 +329,7 @@ const Step2Interview = ({ interviewData, onFinish }) => {
             <div className="grid grid-cols-2 gap-6 text-center">
               <div>
                 <span className="text-2xl font-bold text-emerald-600 ">
-                  {currentIndex + 1}
+                  {currentIndex + 1}{" "}
                 </span>
                 <span className="text-sm text-gray-400 ">
                   Current Questions
@@ -333,7 +338,7 @@ const Step2Interview = ({ interviewData, onFinish }) => {
 
               <div>
                 <span className="text-2xl font-bold text-emerald-600 ">
-                  {questions.length}
+                  {questions.length}{" "}
                 </span>
                 <span className="text-sm text-gray-400 ">Total Questions</span>
               </div>
@@ -391,11 +396,20 @@ const Step2Interview = ({ interviewData, onFinish }) => {
           ) : (
             <motion.div className="mt-6 bg-emerald-50 border border-emerald-200 p-5 rounded-2xl shadow-sm ">
               <p className="text-emerald-700 font-medium mb-4 ">{feedback}</p>
-              <button
+              {/* <button
                 onClick={handleNext}
                 className="w-full bg-linear-to-br from-emerald-600 to-teal-500 text-white py-3 rounded-xl shadow-md hover:opacity-90 transition flex justify-center items-center gap-1 "
               >
                 Next Question <BsArrowRight size={18} />
+              </button> */}
+              <button
+                onClick={handleNext}
+                className="w-full bg-linear-to-br from-emerald-600 to-teal-500 text-white py-3 rounded-xl shadow-md hover:opacity-90 transition flex justify-center items-center gap-1"
+              >
+                {currentIndex + 1 >= questions.length
+                  ? "Finish Interview"
+                  : "Next Question"}{" "}
+                <BsArrowRight size={18} />
               </button>
             </motion.div>
           )}
