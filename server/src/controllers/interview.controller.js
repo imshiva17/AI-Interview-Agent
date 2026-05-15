@@ -362,7 +362,7 @@ export const finishInterview = async (req, res) => {
       confidence: Number(avgConfidence.toFixed(1)),
       communication: Number(avgCommunication.toFixed(1)),
 
-      correctness: Number(correctness.toFixed(1)),
+      correctness: Number(avgCorrectness.toFixed(1)),
       questionWiseScore: interview.questions.map((q) => ({
         question: q.question,
         score: q.score || 0,
