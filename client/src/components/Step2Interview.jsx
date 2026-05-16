@@ -23,6 +23,7 @@ const Step2Interview = ({ interviewData, onFinish }) => {
   const [voiceGender, setVoiceGender] = useState("female");
   const [subtitle, setSubtitle] = useState("");
   const [isTimerActive, setIsTimerActive] = useState(false);
+  const [micSupported, setMicSupported] = useState(true);
 
   const videoRef = useRef(null);
 
@@ -163,7 +164,10 @@ const Step2Interview = ({ interviewData, onFinish }) => {
   }, [currentIndex]);
 
   useEffect(() => {
-    if (!("webkitSpeechRecognition" in window)) return;
+    if (!("webkitSpeechRecognition" in window)) {
+      setMicSupported(false);
+      return;
+    }
     const recognition = new window.webkitSpeechRecognition();
     recognition.lang = "en-US";
     recognition.continuous = true;
@@ -171,9 +175,24 @@ const Step2Interview = ({ interviewData, onFinish }) => {
 
     recognition.onresult = (event) => {
       const transcript = event.results[event.results.length - 1][0].transcript;
-
       setAnswer((prev) => prev + " " + transcript);
     };
+
+    recognition.onerror = (event) => {
+      console.log("Recognition error:", event.error);
+      if (
+        event.error === "not-allowed" ||
+        event.error === "service-not-allowed" ||
+        event.error === "network"
+      ) {
+        setMicSupported(false);
+      }
+    };
+
+    try {
+      recognition.start();
+      recognition.stop();
+    } catch (e) {}
 
     recognitionRef.current = recognition;
   }, []);
@@ -352,6 +371,14 @@ const Step2Interview = ({ interviewData, onFinish }) => {
           <h2 className="text-xl sm:text-2xl font-bold text-emerald-600 mb-6  ">
             AI Smart Interview
           </h2>
+
+          {!micSupported && (
+            <div className="bg-yellow-50 border border-yellow-300 text-yellow-700 text-sm px-4 py-3 rounded-xl mb-4">
+              ⚠️ Voice input is not supported in your browser. Please use{" "}
+              <strong>Chrome</strong> for mic features, or type your answer
+              below.
+            </div>
+          )}
 
           {!isIntroPhase && (
             <div className="relative mb-6 bg-gray-50 p-4 sm:p-6 rounded-2xl border border-gray-200 shadow-sm ">
