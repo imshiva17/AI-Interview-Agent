@@ -22,6 +22,7 @@ const Step2Interview = ({ interviewData, onFinish }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [voiceGender, setVoiceGender] = useState("female");
   const [subtitle, setSubtitle] = useState("");
+  const [isTimerActive, setIsTimerActive] = useState(false);
 
   const videoRef = useRef(null);
 
@@ -130,9 +131,8 @@ const Step2Interview = ({ interviewData, onFinish }) => {
           await speakText("Alright, this one might be a bit more challenging.");
         }
         await speakText(currentQuestion.question);
-        if (isMicOn) {
-          startMic();
-        }
+        setIsTimerActive(true);
+        if (isMicOn) startMic();
       }
     };
 
@@ -140,7 +140,7 @@ const Step2Interview = ({ interviewData, onFinish }) => {
   }, [selectedVoice, isIntroPhase, currentIndex]);
 
   useEffect(() => {
-    if (isIntroPhase) return;
+    if (!isTimerActive) return;
     if (!currentQuestion) return;
 
     const timer = setInterval(() => {
@@ -154,7 +154,7 @@ const Step2Interview = ({ interviewData, onFinish }) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isIntroPhase, currentIndex]);
+  }, [isTimerActive, currentIndex]);
 
   useEffect(() => {
     if (!isIntroPhase && currentQuestion) {
@@ -231,6 +231,7 @@ const Step2Interview = ({ interviewData, onFinish }) => {
   const handleNext = async () => {
     setAnswer("");
     setFeedback("");
+    setIsTimerActive(false);
 
     if (currentIndex + 1 >= questions.length) {
       finishInterview();
@@ -396,15 +397,9 @@ const Step2Interview = ({ interviewData, onFinish }) => {
           ) : (
             <motion.div className="mt-6 bg-emerald-50 border border-emerald-200 p-5 rounded-2xl shadow-sm ">
               <p className="text-emerald-700 font-medium mb-4 ">{feedback}</p>
-              {/* <button
-                onClick={handleNext}
-                className="w-full bg-linear-to-br from-emerald-600 to-teal-500 text-white py-3 rounded-xl shadow-md hover:opacity-90 transition flex justify-center items-center gap-1 "
-              >
-                Next Question <BsArrowRight size={18} />
-              </button> */}
               <button
                 onClick={handleNext}
-                className="w-full bg-linear-to-br from-emerald-600 to-teal-500 text-white py-3 rounded-xl shadow-md hover:opacity-90 transition flex justify-center items-center gap-1"
+                className="w-full bg-linear-to-br from-emerald-600 to-teal-500 text-white py-3 rounded-xl shadow-md hover:opacity-90 transition flex justify-center items-center gap-1 "
               >
                 {currentIndex + 1 >= questions.length
                   ? "Finish Interview"
