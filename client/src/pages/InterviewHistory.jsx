@@ -15,7 +15,6 @@ const InterviewHistory = () => {
           ServerUrl + "/api/interview/get-interview",
           { withCredentials: true },
         );
-        console.log(result.data);
 
         setInterviews(result.data);
       } catch (error) {
@@ -40,7 +39,7 @@ const InterviewHistory = () => {
               Interview History
             </h1>
             <p className="text-gray-500 mt-2 ">
-              Track your past interviews and performance reports{" "}
+              Track your past interviews and performance reports
             </p>
           </div>
         </div>
@@ -55,7 +54,7 @@ const InterviewHistory = () => {
             {interviews.map((item, index) => (
               <div
                 key={index}
-                onClick={()=>navigate(`/report/${item._id}`)}
+                onClick={() => navigate(`/report/${item._id}`)}
                 className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-100 "
               >
                 <div
