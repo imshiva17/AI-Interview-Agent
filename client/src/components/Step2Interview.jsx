@@ -179,7 +179,6 @@ const Step2Interview = ({ interviewData, onFinish }) => {
     };
 
     recognition.onerror = (event) => {
-      console.log("Recognition error:", event.error);
       if (
         event.error === "not-allowed" ||
         event.error === "service-not-allowed" ||
