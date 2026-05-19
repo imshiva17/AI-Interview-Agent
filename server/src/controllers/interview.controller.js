@@ -224,7 +224,7 @@ export const submitAnswer = async (req, res) => {
 
     if (!answer) {
       question.score = 0;
-      question.feedback = "You did not submit an answer";
+      question.feedback = "You did not submit an answer.";
       question.answer = "";
 
       await interview.save();
@@ -236,7 +236,7 @@ export const submitAnswer = async (req, res) => {
 
     if (timeTaken > question.timeLimit) {
       question.score = 0;
-      question.feedback = "Time limit exceeded, answer is  not evaluated";
+      question.feedback = "Time limit exceeded, answer is not evaluated";
       question.answer = answer;
 
       await interview.save();
@@ -254,10 +254,10 @@ export const submitAnswer = async (req, res) => {
 
         Evaluate naturally and fairly, like a real person would.
 
-        Score the answer in these areas(0 to 100);
+        Score the answer in these areas from 0 to 10:
 
         1. Confidence - Does the answer sound clear, confident, and well-presented?
-        2. COmmunication - Is the language simple, clear, and easy to understand?
+        2. Communication - Is the language simple, clear, and easy to understand?
         3. Correctness - Is the answer accurate, relevant, and complete?
 
         Rules:
@@ -265,7 +265,7 @@ export const submitAnswer = async (req, res) => {
         - Do not give random high scores.
         - If the answer is weak, score low.
         - If the answer is strong and detailed, score high.
-        - Consider clarity, structure, and revelance.
+        - Consider clarity, structure, and relevance.
 
         Calculate:
         finalScore = average of confidence, communication, and correctness (rounded to nearest whole number).
@@ -431,6 +431,8 @@ export const getInterviewReport = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: `Failed to find currentUser Interview Report ${error}` });
+      .json({
+        message: `Failed to find currentUser Interview Report ${error}`,
+      });
   }
 };
