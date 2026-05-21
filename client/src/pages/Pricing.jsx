@@ -6,6 +6,7 @@ import axios from "axios";
 import { ServerUrl } from "../App";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
+import { toast } from "react-toastify";
 
 const Pricing = () => {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ const Pricing = () => {
 
           dispatch(setUserData(verifypay.data.user));
 
-          alert("Payment Successful. Credits Added.");
+          toast.success(`🎉 ${plan.credits} credits added successfully!`);
           navigate("/");
         },
         theme: {
@@ -100,7 +101,9 @@ const Pricing = () => {
 
       const rzp = new window.Razorpay(options);
 
-      rzp.open();
+      rzp.on("payment.failed", () => {
+        toast.error("Payment failed. Please try again.");
+      });
 
       setLoadingPlan(null);
     } catch (error) {
