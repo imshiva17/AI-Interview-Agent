@@ -25,6 +25,7 @@ const Step1SetUp = ({ onStart }) => {
   const [resumeText, setResumeText] = useState("");
   const [analysisDone, setAnalysisDone] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
+  const [candidateName, setCandidateName] = useState("");
 
   const handleUploadResume = async () => {
     if (!resumeFile || analyzing) return;
@@ -47,6 +48,7 @@ const Step1SetUp = ({ onStart }) => {
       setProjects(result.data.projects || []);
       setSkills(result.data.skills || []);
       setResumeText(result.data.resumeText || "");
+      setCandidateName(result.data.name || "");
       setAnalysisDone(true);
       setAnalyzing(false);
     } catch (error) {
@@ -60,22 +62,28 @@ const Step1SetUp = ({ onStart }) => {
     try {
       const result = await axios.post(
         ServerUrl + "/api/interview/generate-questions",
-        { role, experience, mode, resumeText, projects, skills },
+        {
+          role,
+          experience,
+          mode,
+          resumeText,
+          projects,
+          skills,
+          candidateName: candidateName,
+        },
         { withCredentials: true },
       );
-      console.log(result.data);
 
       if (userData) {
         dispatch(
           setUserData({ ...userData, credits: result.data.creditsLeft }),
         );
       }
-      setLoading(false)
-      onStart(result.data)
+      setLoading(false);
+      onStart(result.data);
     } catch (error) {
       console.log(error);
-      setLoading(false)
-      
+      setLoading(false);
     }
   };
 
@@ -246,7 +254,7 @@ const Step1SetUp = ({ onStart }) => {
             )}
 
             <motion.button
-            onClick={handleStart}
+              onClick={handleStart}
               disabled={!role || !experience || loading}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
