@@ -32,26 +32,21 @@ export const analyzeResume = async (req, res) => {
       {
         role: "system",
         content: `Extract structured data from resume.
-            Return strictly JSON:
-            {
-            "role": "string",
-            "experience": "string",
-            "projects":["project1", "project2"],
-            "skills" : ["skill1","skill2"]
 
-            }`,
+        Return strictly JSON:
+        {
+        "name": "string",
+        "role": "string",
+        "experience": "string",
+        "projects":["project1", "project2"],
+        "skills" : ["skill1","skill2"]
+         }`,
       },
       {
         role: "user",
         content: resumeText,
       },
     ];
-
-    // const aiResponse = await askAi(messages);
-
-    // const parsed = JSON.parse(aiResponse);
-
-    // const parsed = JSON.parse(cleanResponse);
 
     const aiResponse = await askAi(messages);
 
@@ -65,6 +60,7 @@ export const analyzeResume = async (req, res) => {
     fs.unlinkSync(filepath);
 
     res.json({
+      name: parsed.name || "",
       role: parsed.role,
       experience: parsed.experience,
       projects: parsed.projects,
@@ -81,7 +77,16 @@ export const analyzeResume = async (req, res) => {
 
 export const generateQuestion = async (req, res) => {
   try {
-    let { role, experience, mode, resumeText, projects, skills } = req.body;
+
+    let {
+      role,
+      experience,
+      mode,
+      resumeText,
+      projects,
+      skills,
+      candidateName,
+    } = req.body;
 
     role = role?.trim();
     experience = experience?.trim();
@@ -205,7 +210,7 @@ export const generateQuestion = async (req, res) => {
     res.json({
       interviewId: interview._id,
       creditsLeft: user.credits,
-      userName: user.name,
+      userName: candidateName?.trim() || user.name,
       questions: interview.questions,
     });
   } catch (error) {
@@ -300,7 +305,6 @@ export const submitAnswer = async (req, res) => {
 
     const aiResponse = await askAi(messages);
 
-    // const parsed = JSON.parse(aiResponse);
 
     const cleaned = aiResponse.replace(/```json|```/g, "").trim();
     const parsed = JSON.parse(cleaned);
@@ -429,10 +433,8 @@ export const getInterviewReport = async (req, res) => {
       questionWiseScore: interview.questions,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: `Failed to find currentUser Interview Report ${error}`,
-      });
+    return res.status(500).json({
+      message: `Failed to find currentUser Interview Report ${error}`,
+    });
   }
 };
