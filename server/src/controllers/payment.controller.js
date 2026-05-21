@@ -1,6 +1,7 @@
 import Payment from "../models/payment.model.js";
 import razorpay from "../services/razorpay.service.js";
 import crypto from "crypto";
+import User from "../models/user.model.js";
 
 export const createOrder = async (req, res) => {
   try {
@@ -13,7 +14,7 @@ export const createOrder = async (req, res) => {
     const options = {
       amount: amount * 100,
       currency: "INR",
-      receipt: `receipt_$(Date.now())`,
+      receipt: `receipt_${Date.now()}`,
     };
 
     const order = await razorpay.orders.create(options);
@@ -40,7 +41,7 @@ export const verifypayment = async (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
       req.body;
 
-    const body = razorpay_order_id + " " + razorpay_payment_id;
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
 
     const expectedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
