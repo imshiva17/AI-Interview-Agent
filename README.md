@@ -1,27 +1,27 @@
-# 🤖 AI Interview Agent
+# 🤖 InterviewIQ – AI Interview Agent
 
-AI Interview Agent is a real SaaS-style Full Stack web application that helps users prepare for interviews through AI-powered resume analysis, mock interviews, intelligent feedback, and performance tracking.
+InterviewIQ is an AI-powered interview preparation platform designed to simulate real interview experiences through intelligent mock interviews, resume analysis, voice interaction, and performance tracking.
 
-Built with a modern MERN stack architecture, the platform simulates real interview experiences with AI voice interaction, performance analytics, and credit-based access management.
+Built using the MERN stack, the platform helps users improve technical and communication skills with AI-generated questions, detailed feedback, analytics, and a secure credit-based system.
 
 ---
 
 # 🚀 Features
 
-- 📄 Resume Upload & Analysis (PDF)
+- 📄 Resume Upload & PDF Analysis
 - 🤖 AI-Generated Interview Questions
 - 🎤 Technical & HR Mock Interviews
-- 🗣️ AI Voice Interviewer
-- 📊 Overall Interview Performance Feedback
-- 📈 Line Chart for Question-wise Progress
+- 🗣️ AI Voice Interaction
+- 📊 Interview Performance Analytics
 - ⭐ Question-wise Ratings & Feedback
-- 📥 Downloadable PDF Interview Report
-- ⏱️ Real-time Interview Experience with Timer
-- 💳 Credit-Based Access System
+- 📈 Progress Tracking with Charts
+- 📥 Downloadable Interview Reports
+- ⏱️ Real-time Interview Timer
+- 💳 Credit-Based Usage System
 - 💰 Razorpay Payment Integration
 - 🔐 Firebase Google Authentication
-- 🎨 Smooth UI Animations with Framer Motion
-- 🌍 Full Stack Deployment on Render
+- 🎨 Smooth UI Animations
+- 🌍 Fully Deployed Full Stack Application
 
 ---
 
@@ -47,16 +47,16 @@ Built with a modern MERN stack architecture, the platform simulates real intervi
 
 # 📚 What This Project Demonstrates
 
-- SaaS Application Architecture
-- Full Stack Development
+- AI SaaS Product Development
+- Full Stack MERN Architecture
 - Authentication & Authorization
-- Payment Gateway Integration
 - REST API Development
+- Payment Gateway Integration
 - Credit Management System
-- AI-Based Interview Workflow
+- AI Workflow Integration
 - State Management
 - Production Deployment
-- Real-world Debugging & Problem Solving
+- Real-world Problem Solving
 
 ---
 
@@ -68,14 +68,14 @@ Built with a modern MERN stack architecture, the platform simulates real intervi
 
 # ⚡ Challenges Faced During Development
 
-- Authentication issues
-- AI response handling bugs
-- Razorpay integration problems
-- Deployment issues
-- Voice recognition handling
-- Complex state management
+- Handling AI-generated responses
+- Managing voice interaction workflows
+- Razorpay payment integration
+- Authentication & session handling
+- Deployment & environment configuration
+- Complex frontend state management
 
-These challenges helped improve my debugging, problem-solving, and full-stack development skills.
+These challenges improved my debugging, backend architecture, and full-stack development skills.
 
 ---
 
@@ -83,14 +83,22 @@ These challenges helped improve my debugging, problem-solving, and full-stack de
 
 - AI-generated interview summaries
 - Multi-language interview support
-- Better analytics dashboard
+- Advanced analytics dashboard
 - Dark mode support
-- Interview recording playback
+- Interview recording & playback
 
 ---
 
 # 👨‍💻 Author
 
 **Shiva Rajak**
+
+- Full Stack Developer
+- MERN Stack Developer
+- AI Enthusiast
+
+---
+
+# ⭐ Support
 
 If you like this project, feel free to give it a ⭐ on GitHub.
