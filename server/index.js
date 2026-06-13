@@ -10,9 +10,29 @@ import interviewRouter from "./src/routes/interview.route.js";
 import paymentRouter from "./src/routes/payment.route.js";
 
 const app = express();
+
+// app.use(
+//   cors({
+//     origin: "https://ai-interview-agent-client-5ow4.onrender.com",
+//     credentials: true,
+//   }),
+// );
+
+const allowedOrigins = [
+  "https://ai-interview-agent-client-5ow4.onrender.com",
+  "http://localhost:5173",
+  "http://localhost:5174",
+];
+
 app.use(
   cors({
-    origin: "https://ai-interview-agent-client-5ow4.onrender.com",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
